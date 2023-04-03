@@ -7,6 +7,7 @@ let localVdoElmnt = document.getElementById("localVdo")
 let remoteVdoElmnt = document.getElementById("remoteVdo")
 let startModal = document.getElementById("start")
 let cvr = document.getElementById("cover")
+let logo = document.getElementById('logo')
 let backBtn = document.getElementById('back')
 let localStream
 async function startLocalVideo(){
