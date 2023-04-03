@@ -1,0 +1,92 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Nunito', sans-serif;
+}
+body{
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    background-color: black;
+}
+#cover{
+    width: 100vw;
+    height: 100vh;
+    background-color: darkslategray;
+    position: fixed;
+    z-index: 5;
+}
+#start{
+    position: fixed;
+    z-index: 10;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    padding: 20px;
+    background-color: orange;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    box-shadow: 5px 5px 15px rgba(0,0,0,0.5);
+}
+#localPeerId{
+    color: aliceblue;
+    background-color: darkslategray;
+    padding: 5px 10px;
+    border-radius: 10px;
+    height: min-content;
+}
+.remotePeerId{
+    padding: 5px;
+    border-radius: 10px;
+}
+#join-btn{
+    color: antiquewhite;
+    background-color: black;
+    padding: 5px;
+    border-radius: 5px;
+}
+#localVdo{
+    border: 5px solid orange;
+    border-radius: 10px;
+    background-color: black;
+}
+#remoteVdo{
+    border: 5px solid darkslategray;
+    border-radius: 10px;
+    background-color: black;
+}
+#back{
+    z-index: 5;
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    color: white;
+    font-size: 30px;
+    cursor: pointer;
+    padding: 5px;
+    background-color: rgba(60, 30, 15, 0.5);
+    border-radius: 50px;
+    display: none;
+}
+
+@media(max-width: 500px){
+    body{
+        flex-direction: column;
+    }
+    #start{
+        top: 0px;
+        left: 0px;
+        transform: translate(0,0);
+        width: 100vw;
+        height: 100vh;
+    }
+}
