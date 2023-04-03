@@ -1,4 +1,5 @@
-let peer = new Peer()
+let uid = "vj"+Date.now().toString().slice(-6,-1)
+let peer = new Peer(uid)
 let localPeerIdP = document.getElementById("localPeerId")
 let remotePidF = document.getElementById("remotePeerId")
 let callBtn = document.getElementById("join-btn")
@@ -6,6 +7,7 @@ let localVdoElmnt = document.getElementById("localVdo")
 let remoteVdoElmnt = document.getElementById("remoteVdo")
 let startModal = document.getElementById("start")
 let cvr = document.getElementById("cover")
+let logo = document.getElementById('logo')
 let backBtn = document.getElementById('back')
 let localStream
 async function startLocalVideo(){
@@ -73,6 +75,6 @@ backBtn.addEventListener('click',()=>{
 
 document.getElementById('copy').addEventListener('click',()=>{
     navigator.clipboard.writeText(localPeerIdP.innerText)
-    document.getElementById('share').innerText="copied!"
+    document.getElementById('share').innerText="Copied!"
 })
 
