@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VidJam</title>
+    <link rel="icon" type="image/x-icon" href="/assets/vidjam_logo.jpg">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="cover"></div>
+    <span id="back">←</span>
+    <div id="start">
+        <img width="150px" style="border-bottom: 10px dotted black; margin-bottom: 50px;" src="assets/vidjam_logo_alpha.png" alt="logo">
+        <span id="share" style="font-size: 20px;">Share this id: </span>
+        <!-- <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div> -->
+      <img id="loader" src="./assets/loader.svg" alt="loader">
+        <div id="id_div" style="display: none; align-items: center;">
+            <p id="localPeerId"></p>
+            <img id="copy" width="25px" height="25px" style="cursor: pointer;" src="assets/copytocb.svg" alt="copy">
+        </div>
+        <span style="font-size: 20px;">Or</span><br>
+        <div>
+            <input class="remotePeerId" type="text" id="remotePeerId" placeholder="Enter id..">
+            <button id="join-btn">Join</button>
+        </div>
+    </div>
+    <video id="localVdo" muted></video>
+    <video id="remoteVdo"></video>
+
+    <script src="https://unpkg.com/peerjs@1.4.7/dist/peerjs.min.js"></script>
+    <script src="./script.js"></script>
+</body>
+</html>
