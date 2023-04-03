@@ -1,4 +1,5 @@
-let peer = new Peer()
+let uid = "vj"+Date.now().toString().slice(-6,-1)
+let peer = new Peer(uid)
 let localPeerIdP = document.getElementById("localPeerId")
 let remotePidF = document.getElementById("remotePeerId")
 let callBtn = document.getElementById("join-btn")
@@ -73,6 +74,6 @@ backBtn.addEventListener('click',()=>{
 
 document.getElementById('copy').addEventListener('click',()=>{
     navigator.clipboard.writeText(localPeerIdP.innerText)
-    document.getElementById('share').innerText="copied!"
+    document.getElementById('share').innerText="Copied!"
 })
 
