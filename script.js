@@ -18,8 +18,10 @@ async function startLocalVideo(){
 }
 
 //startLocalVideo()
-peer.on("open", id=>{
-    localPeerIdP.innerText = id
+peer.on("open", id=>{ 
+    document.getElementById("loader").style.display="none";
+    document.getElementById("id_div").style.display="flex";
+    localPeerIdP.innerText = id;
 }) 
 callBtn.addEventListener('click',async ()=>{
     const remotePid = remotePidF.value
@@ -71,4 +73,6 @@ backBtn.addEventListener('click',()=>{
 
 document.getElementById('copy').addEventListener('click',()=>{
     navigator.clipboard.writeText(localPeerIdP.innerText)
+    document.getElementById('share').innerText="copied!"
 })
+
