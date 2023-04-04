@@ -45,11 +45,11 @@ body{
   border-bottom: 10px dotted black;
   animation: logo-border-animation 2s infinite;
 }
-@keyframes logo-border-animation {
+/* @keyframes logo-border-animation {
   0% {border-bottom-color: black;}
   50% {border-bottom-color: rgb(0, 0, 200);}
   100% {border-bottom-color: black;}
-}
+} */
 #localPeerId{
     color: aliceblue;
     background-color: darkslategray;

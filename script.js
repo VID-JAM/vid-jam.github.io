@@ -76,5 +76,9 @@ backBtn.addEventListener('click',()=>{
 document.getElementById('copy').addEventListener('click',()=>{
     navigator.clipboard.writeText(localPeerIdP.innerText)
     document.getElementById('share').innerText="Copied!"
+    setTimeout(myTimeout1, 1700)
+    function myTimeout1(){
+        document.getElementById('share').innerHTML="Share this id:";
+    }
 })
 
