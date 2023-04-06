@@ -43,7 +43,7 @@ body{
 }
 #logo{
   border-bottom: 10px dotted black;
-  animation: logo-border-animation 2s infinite;
+  /* animation: logo-border-animation 2s infinite; */
 }
 /* @keyframes logo-border-animation {
   0% {border-bottom-color: black;}
@@ -72,11 +72,15 @@ body{
     border: 5px solid orange;
     border-radius: 10px;
     background-color: black;
+    width: 50vw;
+    height: 80vh;
 }
 #remoteVdo{
     border: 5px solid darkslategray;
     border-radius: 10px;
     background-color: black;
+    width: 50vw;
+    height: 80vh;
 }
 #back{
     z-index: 5;
@@ -96,9 +100,9 @@ body{
   
 }
 
-@media(max-width: 500px){
+@media(max-width: 600px){
     body{
-        flex-direction: column;
+        flex-direction: column-reverse;
     }
     #start{
         top: 0px;
@@ -108,5 +112,13 @@ body{
         height: 100vh;
         min-width: auto;
         min-height: auto;
+    }
+    #localVdo{
+        width: 100vw;
+        height: 50vh;
+    }
+    #remoteVdo{
+        width: 100vw;
+        height: 50vh;
     }
 }

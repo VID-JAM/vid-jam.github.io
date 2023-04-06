@@ -19,7 +19,6 @@ async function startLocalVideo(){
         })
 }
 
-//startLocalVideo()
 peer.on("open", id=>{ 
     document.getElementById("loader").style.display="none";
     document.getElementById("id_div").style.display="flex";
@@ -66,19 +65,18 @@ backBtn.addEventListener('click',()=>{
     backBtn.style.display = 'none'
     localVdoElmnt.style.display = 'block'
     remoteVdoElmnt.style.display = 'block'
-    localVdoElmnt.style.width = 'auto'
-    remoteVdoElmnt.style.width = 'auto'
-    localVdoElmnt.style.height = 'auto'
-    remoteVdoElmnt.style.height = 'auto'
+    localVdoElmnt.style.width = window.innerWidth > 600 ? "50vw" : "100vw"
+    remoteVdoElmnt.style.width = window.innerWidth > 600 ? "50vw" : "100vw"
+    localVdoElmnt.style.height = window.innerWidth > 600 ? "80vh" : "50vh"
+    remoteVdoElmnt.style.height = window.innerWidth > 600 ? "80vh" : "50vh"
     document.body.style.backgroundColor = 'black'
 })
 
 document.getElementById('copy').addEventListener('click',()=>{
     navigator.clipboard.writeText(localPeerIdP.innerText)
     document.getElementById('share').innerText="Copied!"
-    setTimeout(myTimeout1, 1700)
-    function myTimeout1(){
+    setTimeout(()=>{
         document.getElementById('share').innerHTML="Share this id:";
-    }
+    }, 2000)
 })
 
