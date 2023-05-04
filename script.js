@@ -33,24 +33,34 @@ peer.on("open", id=>{
 }) 
 //caller
 callBtn.addEventListener('click',async ()=>{
-    const remotePid = remotePidF.value
-    await startLocalVideo();
-    const call = peer.call(remotePid,localStream)
-    startModal.style.display = "none"
-    cvr.style.display = "none"
-    call.on("stream", stream =>{
-        remoteVdoElmnt.srcObject = stream
-        remoteVdoElmnt.onloadedmetadata = ()=> remoteVdoElmnt.play()
-        console.log(stream)
-    })
-    endcallbtn.addEventListener("click",()=>{
-        call.close();
-    })
-    call.on("close",()=>{
-        console.log("caller_videoclosed");
-        remoteVdoElmnt.style.display="none";
+    console.log(remotePidF.value)
+    if (remotePidF.value!=="") {
+        const remotePid = remotePidF.value
+        await startLocalVideo();
+        const call = peer.call(remotePid,localStream)
+        startModal.style.display = "none"
+        cvr.style.display = "none"
+        call.on("stream", stream =>{
+            remoteVdoElmnt.srcObject = stream
+            remoteVdoElmnt.onloadedmetadata = ()=> remoteVdoElmnt.play()
+            console.log(stream)
+        })
+        endcallbtn.addEventListener("click",()=>{
+            call.close();
+            location.reload();
+        })
+        call.on("close",()=>{
+            console.log("caller_videoclosed");
+            remoteVdoElmnt.style.display="none";
+            location.reload();
+        })
+    }
+})
+document.addEventListener("keypress",async(e)=>{
+    if (e.key === "Enter") {
+        callBtn.click()
+    }
     
-    })
 })
 //receiver
 peer.on("call", async(call)=>{
@@ -65,11 +75,13 @@ peer.on("call", async(call)=>{
     })
     endcallbtn.addEventListener("click",()=>{
         call.close();
+        location.reload();
     })
     call.on("close",()=>{
         console.log("receiver_videoclosed");
         remoteVdoElmnt.style.display="none";
-    
+        location.reload();
+        
     })
 })
 peer.on('disconnected',()=>{
@@ -157,9 +169,3 @@ function mutevfn(){
       return
     }
   }
-
-//   function endcall(){
-//     console.log("endingcall")
-//     // peer.disconnect();
-//     peer.destroy()
-//   }
