@@ -15,7 +15,6 @@ let endcallbtn = document.getElementById('endcall')
 let localVid = document.getElementById("localVid")
 let remoteVid = document.getElementById("remoteVid")
 let renderedLocalVdo = document.getElementById("renderedVdo")
-console.log("erqerqewr")
 
 let mutea=false;
 let mutev=false;
@@ -142,17 +141,18 @@ callBtn.addEventListener('click',async ()=>{
         call.on("stream", stream =>{
             remoteVdoElmnt.srcObject = stream
             remoteVdoElmnt.onloadedmetadata = ()=> remoteVdoElmnt.play()
-            console.log(stream)
+            // console.log(stream)
         })
-        endcallbtn.addEventListener("click",()=>{
-            call.close();
-            location.reload();
-        })
-        call.on("close",()=>{
-            console.log("caller_videoclosed");
-            remoteVdoElmnt.style.display="none";
-            location.reload();
-        })
+        // endcallbtn.addEventListener("click",()=>{
+        //     console.log("endcall")
+        //     call.close();
+        //     location.reload();
+        // })
+        // call.on("close",()=>{
+        //     console.log("caller_videoclosed");
+        //     remoteVdoElmnt.style.display="none";
+        //     location.reload();
+        // })
     }
 })
 document.addEventListener("keypress",async(e)=>{
@@ -173,17 +173,21 @@ peer.on("call", async(call)=>{
         remoteVdoElmnt.srcObject = stream
         remoteVdoElmnt.onloadedmetadata = ()=> remoteVdoElmnt.play()
     })
-    endcallbtn.addEventListener("click",()=>{
-        call.close();
-        location.reload();
-    })
-    call.on("close",()=>{
-        console.log("receiver_videoclosed");
-        remoteVdoElmnt.style.display="none";
-        location.reload();
+    // endcallbtn.addEventListener("click",()=>{
+    //     console.log("call ended")
+    //     call.close();
+    //     location.reload();
+    // })
+    // call.on("close",()=>{
+    //     console.log("receiver_videoclosed");
+    //     remoteVdoElmnt.style.display="none";
+    //     location.reload();
         
-    })
+    // })
 })
+function endCall(){
+  location.reload()
+}
 peer.on('disconnected',()=>{
     console.log('dissed')
 })
