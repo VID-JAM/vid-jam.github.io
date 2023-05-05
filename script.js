@@ -14,8 +14,14 @@ let mutevbtn = document.getElementById('mutevideo')
 let endcallbtn = document.getElementById('endcall')
 let localVid = document.getElementById("localVid")
 let remoteVid = document.getElementById("remoteVid")
+let renderedLocalVdo = document.getElementById("renderedVdo")
+console.log("erqerqewr")
+
 let mutea=false;
 let mutev=false;
+
+let sendingCanvas = document.getElementById("sendingCanvas")
+let scCtx = sendingCanvas.getContext('2d')
 
 
 let localStream
@@ -32,6 +38,8 @@ localVdoElmnt.addEventListener('loadedmetadata',e=>{
     vh = localVdoElmnt.videoHeight
     canvasElement.width = vw
     canvasElement.height = vh
+    sendingCanvas.width = vw
+    sendingCanvas.height = vh
     dc.width = vw
     dc.height = vh
     oc.width = vw
@@ -56,6 +64,7 @@ async function startLocalVideo(){
       return camera.start();
 }
 const hands = new Hands({locateFile: (file) => {
+    console.log(file)
     return `hands/${file}`;
   }});
   hands.setOptions({
@@ -108,7 +117,12 @@ const hands = new Hands({locateFile: (file) => {
         }
     }
     ctx.restore();
+
+    scCtx.drawImage(canvasElement,0,0)
+    scCtx.drawImage(dc,0,0)
+    scCtx.drawImage(oc,0,0)
 }
+renderedLocalVdo.srcObject = sendingCanvas.captureStream()
 
 peer.on("open", id=>{ 
     document.getElementById("loader").style.display="none";
@@ -191,8 +205,8 @@ remoteVid.addEventListener('click',()=>{
 })
 backBtn.addEventListener('click',()=>{
     backBtn.style.display = 'none'
-    localVid.style.display = 'block'
-    remoteVid.style.display = 'block'
+    localVid.style.display = 'flex'
+    remoteVid.style.display = 'flex'
     localVid.style.width = window.innerWidth > 600 ? "50vw" : "100vw"
     remoteVid.style.width = window.innerWidth > 600 ? "50vw" : "100vw"
     localVid.style.height = window.innerWidth > 600 ? "80vh" : "50vh"
@@ -255,3 +269,4 @@ function mutevfn(){
       return
     }
   }
+

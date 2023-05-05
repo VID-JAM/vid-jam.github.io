@@ -156,12 +156,19 @@ body{
     background-color: black;
     width: 50vw;
     height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#renderedVdo{
+    height: 100%;
+    overflow: hidden;
 }
 .local-container{
     position: relative;
     width: 100%;
     height: 100%;
-
+    display: none;
 }
 .output_canvas{
     position: absolute;
