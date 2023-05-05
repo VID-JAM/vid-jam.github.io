@@ -27,8 +27,20 @@
             <button id="join-btn">Join</button>
         </div>
     </div>
-    <video id="localVdo" muted></video>
-    <video id="remoteVdo"></video>
+
+    <div id="localVid" class="videoDiv">
+        <video id="renderedVdo"></video>
+        <div class="local-container">
+            <video id="localVdo" muted></video>
+            <canvas class="output_canvas"></canvas>
+            <canvas id="draw"></canvas>
+            <canvas id="overlay"></canvas>
+          </div>
+    </div>
+    <div id="remoteVid" class="videoDiv">
+        <video id="remoteVdo"></video>
+    </div>
+
     <div id="controls">
         <button id="muteaudio" onclick="muteafn()">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-mic" viewBox="0 0 16 16">
@@ -45,8 +57,12 @@
 
 
     </div>
+    <canvas id="sendingCanvas" style="display: none;"></canvas>
 
     <script src="https://unpkg.com/peerjs@1.4.8-rc.1/dist/peerjs.min.js"></script>
+    <script src="camera_utils.js"></script>
+    <script src="drawing_utils.js"></script>
+    <script src="hands/hands.js"></script>
     <script src="./script.js"></script>
 </body>
 </html>
