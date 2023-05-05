@@ -19,13 +19,13 @@ body{
     height: 100vh;
     background-color: darkslategray;
     position: fixed;
-    z-index: 5;
+    z-index: 10;
     background-image: url(./assets/cover_bg.png);
     background-size: 100vw 100vh;
 }
 #start{
     position: fixed;
-    z-index: 10;
+    z-index: 15;
     top: 50%;
     left: 50%;
     transform: translate(-50%,-50%);
@@ -69,11 +69,12 @@ body{
     font-weight: 900;
 }
 #localVdo{
-    border: 5px solid orange;
+    /* border: 5px solid orange;
     border-radius: 10px;
     background-color: black;
     width: 50vw;
-    height: 80vh;
+    height: 80vh; */
+    display: none;
 }
 #remoteVdo{
     border: 5px solid darkslategray;
@@ -83,7 +84,7 @@ body{
     height: 80vh;
 }
 #back{
-    z-index: 5;
+    z-index: 10;
     position: fixed;
     top: 10px;
     right: 10px;
@@ -111,7 +112,7 @@ body{
     justify-content: space-around;
     background-color: rgb(125, 124, 124);
     transition: 0.5s;
-    
+    z-index: 9;
 }
 #controls button{
     padding: 5px;
@@ -148,6 +149,39 @@ body{
     height: 50px;
     width: 30px;
 }
+
+#localVid{
+    border: 5px solid orange;
+    border-radius: 10px;
+    background-color: black;
+    width: 50vw;
+    height: 80vh;
+}
+.local-container{
+    position: relative;
+    width: 100%;
+    height: 100%;
+
+}
+.output_canvas{
+    position: absolute;
+    z-index: 5;
+    width: 100%;
+    height: 100%;
+}
+#draw{
+    position: absolute;
+    z-index: 6;
+    width: 100%;
+    height: 100%;
+}
+#overlay{
+    position: absolute;
+    z-index: 7;
+    width: 100%;
+    height: 100%;
+}
+
 @media(max-width: 600px){
     body{
         flex-direction: column-reverse;

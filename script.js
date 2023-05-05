@@ -12,18 +12,102 @@ let backBtn = document.getElementById('back')
 let muteabtn = document.getElementById('muteaudio')
 let mutevbtn = document.getElementById('mutevideo')
 let endcallbtn = document.getElementById('endcall')
+let localVid = document.getElementById("localVid")
+let remoteVid = document.getElementById("remoteVid")
 let mutea=false;
 let mutev=false;
 
 
 let localStream
+
+let w = window.innerWidth
+let h = window.innerHeight
+let vw,vh
+const canvasElement = document.querySelector('.output_canvas');
+const ctx = canvasElement.getContext('2d');
+let dc = document.getElementById('draw')
+let oc = document.getElementById('overlay')
+localVdoElmnt.addEventListener('loadedmetadata',e=>{
+    vw = localVdoElmnt.videoWidth
+    vh = localVdoElmnt.videoHeight
+    canvasElement.width = vw
+    canvasElement.height = vh
+    dc.width = vw
+    dc.height = vh
+    oc.width = vw
+    oc.height = vh
+  })
+  let octx = oc.getContext('2d')
+  let dctx = dc.getContext('2d')
+  let x,y,px,py
+
 async function startLocalVideo(){
-    return navigator.mediaDevices.getUserMedia({video:true,audio:true})
-        .then(stream =>{
-            localStream = stream
-            localVdoElmnt.srcObject = stream
-            localVdoElmnt.onloadedmetadata = ()=> localVdoElmnt.play()
-        })
+    // return navigator.mediaDevices.getUserMedia({video:true,audio:true})
+    //     .then(stream =>{
+    //         localStream = stream
+    //         localVdoElmnt.srcObject = stream
+    //         localVdoElmnt.onloadedmetadata = ()=> localVdoElmnt.play()
+    //     })
+    const camera = new Camera(localVdoElmnt, {
+        onFrame: async () => {
+          await hands.send({image: localVdoElmnt});
+        },
+      });
+      return camera.start();
+}
+const hands = new Hands({locateFile: (file) => {
+    return `hands/${file}`;
+  }});
+  hands.setOptions({
+      selfieMode: true,
+      maxNumHands: 1,
+      modelComplexity: 1,
+      minDetectionConfidence: 0.5,
+      minTrackingConfidence: 0.5
+  });
+  hands.onResults(onResults);
+  function onResults(results) {
+    ctx.save();
+    ctx.clearRect(0, 0, canvasElement.width, canvasElement.height);
+    octx.clearRect(0,0,oc.width,oc.height)
+    ctx.drawImage(results.image, 0, 0, canvasElement.width, canvasElement.height);
+    if (results.multiHandLandmarks) {
+        for (const landmarks of results.multiHandLandmarks) {
+          //console.log(landmarks[12].z)
+          px = x
+          py = y
+          x = landmarks[8].x*vw
+          y = landmarks[8].y*vh
+          //console.log(x,y)
+          ctx.beginPath()
+          ctx.fillStyle = "#00ffee"
+          ctx.arc(x,y,10,0,2*Math.PI)
+          ctx.fill()
+          drawConnectors(ctx, landmarks, HAND_CONNECTIONS,{color: '#00ffee', lineWidth: 5});
+          drawLandmarks(ctx, landmarks, {color: '#ee00ff', lineWidth: 2});
+          if(landmarks[8].y<landmarks[16].y-0.1){
+            if(landmarks[8].y>landmarks[12].y){
+              octx.beginPath()
+              octx.fillStyle = "rgba(15,143,255,0.5)"
+              octx.rect(x-20,y-20,50,50)
+              octx.fill()
+              dctx.clearRect(x-20,y-20,50,50)
+            }
+            else{
+              dctx.beginPath()
+              dctx.moveTo(px,py)
+              dctx.strokeStyle = "#00ff00"
+              dctx.lineWidth = 3
+              dctx.lineTo(x,y)
+              dctx.stroke()
+            }
+          }
+          if(landmarks[20].y<landmarks[12].y-((-landmarks[12].z*0.833)+0.05)){
+            dctx.clearRect(0, 0, dc.width, dc.height)
+          }
+        }
+    }
+    ctx.restore();
 }
 
 peer.on("open", id=>{ 
@@ -39,6 +123,7 @@ callBtn.addEventListener('click',async ()=>{
         await startLocalVideo();
         const call = peer.call(remotePid,localStream)
         startModal.style.display = "none"
+        // document.getElementById("controls").style.display = 'block'
         cvr.style.display = "none"
         call.on("stream", stream =>{
             remoteVdoElmnt.srcObject = stream
@@ -67,6 +152,7 @@ peer.on("call", async(call)=>{
     console.log("got a call")
     await startLocalVideo()
     startModal.style.display = "none"
+    // document.getElementById("controls").style.display = 'block'
     cvr.style.display = "none"
     call.answer(localStream)
     call.on("stream", stream =>{
@@ -89,28 +175,28 @@ peer.on('disconnected',()=>{
 })
 
 
-localVdoElmnt.addEventListener('click',()=>{
-    remoteVdoElmnt.style.display = 'none'
-    localVdoElmnt.style.width = '100vw'
-    localVdoElmnt.style.height = '100vh'
+localVid.addEventListener('click',()=>{
+    remoteVid.style.display = 'none'
+    localVid.style.width = '100vw'
+    localVid.style.height = '100vh'
     document.body.style.backgroundColor = 'orange'
     backBtn.style.display = 'block'
 })
-remoteVdoElmnt.addEventListener('click',()=>{
-    localVdoElmnt.style.display = 'none'
-    remoteVdoElmnt.style.width = '100vw'
-    remoteVdoElmnt.style.height = '100vh'
+remoteVid.addEventListener('click',()=>{
+    localVid.style.display = 'none'
+    remoteVid.style.width = '100vw'
+    remoteVid.style.height = '100vh'
     document.body.style.backgroundColor = 'darkslategray'
     backBtn.style.display = 'block'
 })
 backBtn.addEventListener('click',()=>{
     backBtn.style.display = 'none'
-    localVdoElmnt.style.display = 'block'
-    remoteVdoElmnt.style.display = 'block'
-    localVdoElmnt.style.width = window.innerWidth > 600 ? "50vw" : "100vw"
-    remoteVdoElmnt.style.width = window.innerWidth > 600 ? "50vw" : "100vw"
-    localVdoElmnt.style.height = window.innerWidth > 600 ? "80vh" : "50vh"
-    remoteVdoElmnt.style.height = window.innerWidth > 600 ? "80vh" : "50vh"
+    localVid.style.display = 'block'
+    remoteVid.style.display = 'block'
+    localVid.style.width = window.innerWidth > 600 ? "50vw" : "100vw"
+    remoteVid.style.width = window.innerWidth > 600 ? "50vw" : "100vw"
+    localVid.style.height = window.innerWidth > 600 ? "80vh" : "50vh"
+    remoteVid.style.height = window.innerWidth > 600 ? "80vh" : "50vh"
     document.body.style.backgroundColor = 'black'
 })
 
