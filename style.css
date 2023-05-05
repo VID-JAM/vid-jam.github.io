@@ -4,6 +4,8 @@
     padding: 0;
     box-sizing: border-box;
     font-family: 'Nunito', sans-serif;
+    outline: none;
+    transition: .5s;
 }
 body{
     height: 100vh;
@@ -76,12 +78,16 @@ body{
     height: 80vh; */
     display: none;
 }
-#remoteVdo{
+#remoteVid{
     border: 5px solid darkslategray;
     border-radius: 10px;
     background-color: black;
     width: 50vw;
     height: 80vh;
+}
+#remoteVdo{
+    height: 100%;
+    overflow: hidden;
 }
 #back{
     z-index: 10;
@@ -137,7 +143,7 @@ body{
 #controls:hover{
     width: 200px;
     height:60px;
-       
+    background-color: rgb(244, 226, 129);
 }
 #controls:hover button svg{
     /* background-color: #fc7239; */
@@ -202,11 +208,11 @@ body{
         min-width: auto;
         min-height: auto;
     }
-    #localVdo{
+    #localVid{
         width: 100vw;
         height: 50vh;
     }
-    #remoteVdo{
+    #remoteVid{
         width: 100vw;
         height: 50vh;
     }
