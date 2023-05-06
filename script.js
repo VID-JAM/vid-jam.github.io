@@ -121,7 +121,8 @@ const hands = new Hands({locateFile: (file) => {
     scCtx.drawImage(dc,0,0)
     scCtx.drawImage(oc,0,0)
 }
-renderedLocalVdo.srcObject = sendingCanvas.captureStream()
+localStream = sendingCanvas.captureStream()
+renderedLocalVdo.srcObject = localStream
 
 peer.on("open", id=>{ 
     document.getElementById("loader").style.display="none";

@@ -7,6 +7,10 @@
     outline: none;
     transition: .5s;
 }
+html{
+    height: 100vh;
+    overflow: hidden;
+}
 body{
     height: 100vh;
     overflow: hidden;
@@ -84,6 +88,9 @@ body{
     background-color: black;
     width: 50vw;
     height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 #remoteVdo{
     height: 100%;
