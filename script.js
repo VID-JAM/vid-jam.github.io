@@ -48,6 +48,11 @@ localVdoElmnt.addEventListener('loadedmetadata',e=>{
   let dctx = dc.getContext('2d')
   let x,y,px,py
 
+  let audioStream
+  let contraints = {
+    video: false,
+    audio: true
+  }
 async function startLocalVideo(){
     // return navigator.mediaDevices.getUserMedia({video:true,audio:true})
     //     .then(stream =>{
@@ -55,6 +60,12 @@ async function startLocalVideo(){
     //         localVdoElmnt.srcObject = stream
     //         localVdoElmnt.onloadedmetadata = ()=> localVdoElmnt.play()
     //     })
+    navigator.mediaDevices.getUserMedia(contraints)
+      .then(audStream =>{
+        audioStream = audStream
+      //localVdoElmnt.srcObject = stream
+      //localVdoElmnt.onloadedmetadata = ()=> localVdoElmnt.play()
+      })
     const camera = new Camera(localVdoElmnt, {
         onFrame: async () => {
           await hands.send({image: localVdoElmnt});
@@ -135,6 +146,7 @@ callBtn.addEventListener('click',async ()=>{
     if (remotePidF.value!=="") {
         const remotePid = remotePidF.value
         await startLocalVideo();
+        audioStream.getTracks().forEach(track => localStream.addTrack(track))
         const call = peer.call(remotePid,localStream)
         startModal.style.display = "none"
         // document.getElementById("controls").style.display = 'block'
@@ -191,6 +203,7 @@ function endCall(){
 }
 peer.on('disconnected',()=>{
     console.log('dissed')
+    location.reload()
 })
 
 
@@ -230,6 +243,7 @@ document.getElementById('copy').addEventListener('click',()=>{
 function muteafn(){
    
   if (!mutea){
+    localStream.getAudioTracks()[0].enabled = false
     console.log("mute")
     mutea=true;
     console.log(mutea)
@@ -241,6 +255,7 @@ function muteafn(){
   return
   }
   if(mutea){
+    localStream.getAudioTracks()[0].enabled = true
     mutea=false;
     console.log(mutea)
     muteabtn.innerHTML=""
@@ -255,6 +270,7 @@ function muteafn(){
 function mutevfn(){
    
     if (!mutev){
+      localStream.getVideoTracks()[0].enabled = false
       console.log("mutev")
       mutev=true;
       console.log(mutev)
@@ -265,6 +281,7 @@ function mutevfn(){
     return
     }
     if(mutev){
+      localStream.getVideoTracks()[0].enabled = true
       mutev=false;
       console.log(mutev)
       mutevbtn.innerHTML=""
