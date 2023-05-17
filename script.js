@@ -15,6 +15,8 @@ let endcallbtn = document.getElementById('endcall')
 let localVid = document.getElementById("localVid")
 let remoteVid = document.getElementById("remoteVid")
 let renderedLocalVdo = document.getElementById("renderedVdo")
+let drawColor = document.getElementById('clrInput')
+drawColor.value = '#00ff00'
 
 let mutea=false;
 let mutev=false;
@@ -47,6 +49,8 @@ localVdoElmnt.addEventListener('loadedmetadata',e=>{
   let octx = oc.getContext('2d')
   let dctx = dc.getContext('2d')
   let x,y,px,py
+
+  //dctx.strokeStyle = drawColor
 
   // let audioStream
   // let contraints = {
@@ -81,8 +85,8 @@ const hands = new Hands({locateFile: (file) => {
       selfieMode: true,
       maxNumHands: 1,
       modelComplexity: 1,
-      minDetectionConfidence: 0.5,
-      minTrackingConfidence: 0.5
+      minDetectionConfidence: 0.6,
+      minTrackingConfidence: 0.6
   });
   hands.onResults(onResults);
   function onResults(results) {
@@ -99,11 +103,11 @@ const hands = new Hands({locateFile: (file) => {
           y = landmarks[8].y*vh
           //console.log(x,y)
           ctx.beginPath()
-          ctx.fillStyle = "#00ffee"
-          ctx.arc(x,y,10,0,2*Math.PI)
+          ctx.fillStyle = drawColor.value
+          ctx.arc(x,y,9,0,2*Math.PI)
           ctx.fill()
-          drawConnectors(ctx, landmarks, HAND_CONNECTIONS,{color: '#00ffee', lineWidth: 5});
-          drawLandmarks(ctx, landmarks, {color: '#ee00ff', lineWidth: 2});
+          drawConnectors(ctx, landmarks, HAND_CONNECTIONS,{color: '#ff7700', lineWidth: 5});
+          drawLandmarks(ctx, landmarks, {color: '#ee00ff', lineWidth: 1});
           if(landmarks[8].y<landmarks[16].y-0.1){
             if(landmarks[8].y>landmarks[12].y){
               octx.beginPath()
@@ -115,7 +119,7 @@ const hands = new Hands({locateFile: (file) => {
             else{
               dctx.beginPath()
               dctx.moveTo(px,py)
-              dctx.strokeStyle = "#00ff00"
+              dctx.strokeStyle = drawColor.value
               dctx.lineWidth = 3
               dctx.lineTo(x,y)
               dctx.stroke()
@@ -230,7 +234,7 @@ backBtn.addEventListener('click',()=>{
     remoteVid.style.width = window.innerWidth > 600 ? "50vw" : "100vw"
     localVid.style.height = window.innerWidth > 600 ? "80vh" : "50vh"
     remoteVid.style.height = window.innerWidth > 600 ? "80vh" : "50vh"
-    document.body.style.backgroundColor = 'black'
+    document.body.style.backgroundColor = 'rgb(55,55,55)'
 })
 
 document.getElementById('copy').addEventListener('click',()=>{
