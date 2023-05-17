@@ -18,7 +18,7 @@ body{
     justify-content: center;
     align-items: center;
     gap: 5px;
-    background-color: black;
+    background-color: rgb(55, 55, 55);
 }
 #cover{
     width: 100vw;
@@ -173,6 +173,31 @@ body{
     align-items: center;
     justify-content: center;
 }
+#clrInput{
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-color: transparent;
+    width: 25px;
+    height: 25px;
+    border: none;
+    cursor: pointer;
+}
+#clrInput::-webkit-color-swatch {
+    border-radius: 45% 50% 50% 50%;
+    border: 5px solid #000000;
+  }
+#clrInput::-moz-color-swatch {
+    border-radius: 45% 50% 50% 50%;
+    border: 5px solid #000000;
+}
+#clrInput:hover{
+    width: 30px;
+    height: 30px;
+}
 #renderedVdo{
     height: 100%;
     overflow: hidden;
@@ -222,5 +247,9 @@ body{
     #remoteVid{
         width: 100vw;
         height: 50vh;
+    }
+    #clrInput{
+        top: auto;
+        bottom: 10px;
     }
 }
