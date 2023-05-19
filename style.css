@@ -83,7 +83,7 @@ body{
     display: none;
 }
 #remoteVid{
-    border: 5px solid darkslategray;
+    border: 3px solid darkslategray;
     border-radius: 10px;
     background-color: black;
     width: 50vw;
@@ -119,6 +119,7 @@ body{
     height: 40px;
     width: 150px;
     padding: 10px;
+    border: 2px solid orange;
     border-radius: 30px;
     display: flex;
     align-items: center;
@@ -132,7 +133,7 @@ body{
     border-radius: 30px;
     background-color: transparent;
     border: none;
-
+    cursor: pointer;
 }
 #controls button img{
     background-color: transparent;
@@ -164,7 +165,7 @@ body{
 }
 
 #localVid{
-    border: 5px solid orange;
+    border: 3px solid orange;
     border-radius: 10px;
     background-color: black;
     width: 50vw;
