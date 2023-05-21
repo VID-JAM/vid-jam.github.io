@@ -14,18 +14,20 @@
     <div id="cover"></div>
     <span id="back">←</span>
     <div id="start">
-        <img id="logo" width="150px" style="margin-bottom: 50px;" src="assets/vidjam_logo_alpha.png" alt="logo">
+        <img id="logo" width="150px" style="margin-bottom: 50px;" src="assets/vidjam_logo_alpha.png" alt="logo" onclick="endCall()">
         <img id="loader" src="./assets/loader.svg" alt="loader">
         <button id="newMeetBtn" onclick="newMeet()">+ New Meeting</button>
-        <span id="share" style="display: none; font-size: 20px;">Share this id: </span>
+        <span id="share" style="display: none; font-size: 20px; height: 25px;">Share this id: </span>
         <div id="id_div" style="display: none; align-items: center;">
             <p id="localPeerId"></p>
             <img id="copy" width="25px" height="25px" style="cursor: pointer;" src="assets/copytocb.svg" alt="copy">
         </div>
-        <span style="font-size: 20px;">Or</span><br>
-        <div>
-            <input class="remotePeerId" type="text" id="remotePeerId" placeholder="Enter id..">
-            <button id="join-btn">Join</button>
+        <div id="inAndJoin" style="display: flex; flex-direction: column; align-items: center; gap: 10px; padding-top: 10px;">
+            <span style="font-size: 20px;">Or</span><br>
+            <div>
+                <input class="remotePeerId" type="text" id="remotePeerId" placeholder="Enter id..">
+                <button id="join-btn">Join</button>
+            </div>
         </div>
     </div>
 
@@ -45,13 +47,9 @@
           </div>
     </div>
     <div id="remoteVid" class="videoDiv">
-      
             <button id="muteRemoteAudio" onclick="muteremoteaudio()">
                 <img id="mutera_icon" src="./assets/volume-down.svg" alt="volume-down.svg">
             </button>
-      
-        
-        <!-- <img src="./assets/volume-down.svg" alt="volume-down.svg"> -->
         <video id="remoteVdo" autoplay></video>
     </div>
 
