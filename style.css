@@ -91,12 +91,10 @@ body{
     display: flex;
     align-items: center;
     justify-content: center;
-    position: relative;
 }
 #remoteVdo{
     height: 100%;
     overflow: hidden;
-    position: inherit;
 }
 #back{
     z-index: 10;
@@ -111,40 +109,6 @@ body{
     border-radius: 50px;
     display: none;
 }
-#muteRemoteAudio{
-    border: none;
-    cursor: pointer;
-    position: absolute;
-    bottom:10px;
-    right: 10px;
-    height: 40px;
-    width: 40px;
-    border-radius: 12px;
-    z-index: 10;
-    background-color: rgba(0,0,0,0);
-    transition : 0.2s;
-    display: grid;
-    place-items: center;
-}
-#muteRemoteAudio img{
-    width: 70%;
-    height: 70%;
-    opacity: 0.6;
-    display: none;
-}
-#remoteVid:hover #muteRemoteAudio img{
-    display: block;
-}
-#muteRemoteAudio img:hover {
-    opacity: 1;
-}
-#remoteVid:hover #muteRemoteAudio{
-    background-color:orange;
-}
-
-
-
-
 #id_div{
   height: 80px;
   
