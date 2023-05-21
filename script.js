@@ -114,9 +114,9 @@ const hands = new Hands({locateFile: (file) => {
                 dctx.stroke()
               }
             }
-          }
-          if(landmarks[20].y<landmarks[12].y-((-landmarks[12].z*0.833)+0.05)){
-            dctx.clearRect(0, 0, dc.width, dc.height)
+            if(landmarks[20].y<landmarks[12].y-((-landmarks[12].z*0.833)+0.05)){
+              dctx.clearRect(0, 0, dc.width, dc.height)
+            }
           }
         }
     }
