@@ -254,3 +254,15 @@ function mutevfn(){
     }
   }
 
+function toggleDrawMode(){
+  if(!drawMode){
+    drawModeIndicator.style.backgroundColor = 'lightgreen'
+    drawMode = true
+    return
+  }
+  if(drawMode){
+    drawModeIndicator.style.backgroundColor = 'red'
+    drawMode = false
+    return
+  }
+}
