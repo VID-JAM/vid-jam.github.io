@@ -12,9 +12,6 @@ let backBtn = document.getElementById('back')
 let muteabtn = document.getElementById('muteaudio')
 let mutevbtn = document.getElementById('mutevideo')
 let endcallbtn = document.getElementById('endcall')
-// let mute_rabtn = document.getElementById('muteRemoteAudio')
-var mutera_icon = document.getElementById('mutera_icon');
-
 let localVid = document.getElementById("localVid")
 let remoteVid = document.getElementById("remoteVid")
 let renderedLocalVdo = document.getElementById("renderedVdo")
@@ -22,7 +19,7 @@ let drawColor = document.getElementById('clrInput')
 drawColor.value = '#00ff00'
 let drawModeIndicator = document.getElementById('drawModeIndicator')
 let drawMode = false
-let mute_ra=false;
+
 let mutea=false;
 let mutev=false;
 
@@ -191,7 +188,7 @@ localVid.addEventListener('click',()=>{
     document.body.style.backgroundColor = 'orange'
     backBtn.style.display = 'block'
 })
-remoteVdoElmnt.addEventListener('click',()=>{
+remoteVid.addEventListener('click',()=>{
     localVid.style.display = 'none'
     remoteVid.style.width = '100vw'
     remoteVid.style.height = '100vh'
@@ -277,16 +274,3 @@ function toggleDrawMode(){
     return
   }
 }
-  function muteremoteaudio(){
-    
-    mute_ra = !mute_ra;
-    remoteVdoElmnt.mute=mute_ra;
-
-    if(mute_ra) //when true-audio muted
-      mutera_icon.src="./assets/volume-mute.svg";
-    else
-    mutera_icon.src="./assets/volume-down.svg";
-      console.log(mute_ra);
-    return
-  
-  }
