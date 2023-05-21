@@ -88,11 +88,11 @@ const hands = new Hands({locateFile: (file) => {
           ctx.fill()
           drawConnectors(ctx, landmarks, HAND_CONNECTIONS,{color: '#ff7700', lineWidth: 5});
           drawLandmarks(ctx, landmarks, {color: '#ee00ff', lineWidth: 1});
-          if(landmarks[4].y<landmarks[20].y && landmarks[4].x.toFixed(2)===landmarks[20].x.toFixed(2)){
+          if(landmarks[4].y<landmarks[20].y-((-landmarks[20].z*0.833)+0.05) && landmarks[4].x.toFixed(2)===landmarks[20].x.toFixed(2) && landmarks[4].x.toFixed(1)===landmarks[8].x.toFixed(1)){
             drawModeIndicator.style.backgroundColor = 'lightgreen'
             drawMode = true
           }
-          if(landmarks[4].y>landmarks[20].y && landmarks[4].x.toFixed(2)===landmarks[20].x.toFixed(2)){
+          if(landmarks[4].y>landmarks[20].y-((-landmarks[20].z*0.833)+0.05) && landmarks[4].x.toFixed(2)===landmarks[20].x.toFixed(2) && landmarks[4].x.toFixed(1)===landmarks[8].x.toFixed(1)){
             drawModeIndicator.style.backgroundColor = 'red'
             drawMode = false
           }
