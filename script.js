@@ -12,7 +12,6 @@ let backBtn = document.getElementById('back')
 let muteabtn = document.getElementById('muteaudio')
 let mutevbtn = document.getElementById('mutevideo')
 let endcallbtn = document.getElementById('endcall')
-// let mute_rabtn = document.getElementById('muteRemoteAudio')
 var mutera_icon = document.getElementById('mutera_icon');
 
 let localVid = document.getElementById("localVid")
@@ -92,11 +91,11 @@ const hands = new Hands({locateFile: (file) => {
           drawConnectors(ctx, landmarks, HAND_CONNECTIONS,{color: '#ff7700', lineWidth: 5});
           drawLandmarks(ctx, landmarks, {color: '#ee00ff', lineWidth: 1});
           if(landmarks[4].y<landmarks[20].y-((-landmarks[20].z*0.833)+0.05) && landmarks[4].x.toFixed(2)===landmarks[20].x.toFixed(2) && landmarks[4].x.toFixed(1)===landmarks[8].x.toFixed(1)){
-            drawModeIndicator.style.backgroundColor = 'lightgreen'
+            drawModeIndicator.style.backgroundColor = 'lime'
             drawMode = true
           }
           if(landmarks[4].y>landmarks[20].y-((-landmarks[20].z*0.833)+0.05) && landmarks[4].x.toFixed(2)===landmarks[20].x.toFixed(2) && landmarks[4].x.toFixed(1)===landmarks[8].x.toFixed(1)){
-            drawModeIndicator.style.backgroundColor = 'red'
+            drawModeIndicator.style.backgroundColor = 'grey'
             drawMode = false
           }
           if(drawMode){
@@ -142,6 +141,7 @@ function newMeet(){
   document.getElementById('newMeetBtn').style.display = "none"
   document.getElementById('share').style.display = "block"
   document.getElementById("id_div").style.display="flex";
+  document.getElementById("inAndJoin").style.opacity=0
 }
 //caller
 callBtn.addEventListener('click',async ()=>{
@@ -267,26 +267,22 @@ function mutevfn(){
 
 function toggleDrawMode(){
   if(!drawMode){
-    drawModeIndicator.style.backgroundColor = 'lightgreen'
+    drawModeIndicator.style.backgroundColor = 'lime'
     drawMode = true
     return
   }
   if(drawMode){
-    drawModeIndicator.style.backgroundColor = 'red'
+    drawModeIndicator.style.backgroundColor = 'grey'
     drawMode = false
     return
   }
 }
   function muteremoteaudio(){
-    
     mute_ra = !mute_ra;
-    remoteVdoElmnt.mute=mute_ra;
+    remoteVdoElmnt.muted=mute_ra;
 
     if(mute_ra) //when true-audio muted
       mutera_icon.src="./assets/volume-mute.svg";
     else
-    mutera_icon.src="./assets/volume-down.svg";
-      console.log(mute_ra);
-    return
-  
+      mutera_icon.src="./assets/volume-down.svg";
   }
