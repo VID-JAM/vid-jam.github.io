@@ -208,6 +208,7 @@ body{
     padding: 5px;
     border-radius: 10px;
     background-color: red;
+    cursor: pointer;
 }
 #renderedVdo{
     height: 100%;
