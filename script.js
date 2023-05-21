@@ -131,9 +131,15 @@ renderedLocalVdo.srcObject = localStream
 
 peer.on("open", id=>{ 
     document.getElementById("loader").style.display="none";
-    document.getElementById("id_div").style.display="flex";
+    document.getElementById('newMeetBtn').style.display = "block"
+    //document.getElementById("id_div").style.display="flex";
     localPeerIdP.innerText = id;
 }) 
+function newMeet(){
+  document.getElementById('newMeetBtn').style.display = "none"
+  document.getElementById('share').style.display = "block"
+  document.getElementById("id_div").style.display="flex";
+}
 //caller
 callBtn.addEventListener('click',async ()=>{
     if (remotePidF.value!=="") {
