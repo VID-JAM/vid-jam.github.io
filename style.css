@@ -199,6 +199,17 @@ body{
     width: 30px;
     height: 30px;
 }
+#drawModeIndicator{
+    position: fixed;
+    top: 10px;
+    left: 50px;
+    width: 25px;
+    height: 25px;
+    padding: 5px;
+    border-radius: 10px;
+    background-color: red;
+    cursor: pointer;
+}
 #renderedVdo{
     height: 100%;
     overflow: hidden;
@@ -252,5 +263,11 @@ body{
     #clrInput{
         top: auto;
         bottom: 10px;
+    }
+    #drawModeIndicator{
+        top: auto;
+        left: auto;
+        bottom: 10px;
+        right: 10px;
     }
 }

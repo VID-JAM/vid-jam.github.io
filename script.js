@@ -17,6 +17,8 @@ let remoteVid = document.getElementById("remoteVid")
 let renderedLocalVdo = document.getElementById("renderedVdo")
 let drawColor = document.getElementById('clrInput')
 drawColor.value = '#00ff00'
+let drawModeIndicator = document.getElementById('drawModeIndicator')
+let drawMode = false
 
 let mutea=false;
 let mutev=false;
@@ -86,21 +88,31 @@ const hands = new Hands({locateFile: (file) => {
           ctx.fill()
           drawConnectors(ctx, landmarks, HAND_CONNECTIONS,{color: '#ff7700', lineWidth: 5});
           drawLandmarks(ctx, landmarks, {color: '#ee00ff', lineWidth: 1});
-          if(landmarks[8].y<landmarks[16].y-0.1){
-            if(landmarks[8].y>landmarks[12].y){
-              octx.beginPath()
-              octx.fillStyle = "rgba(15,143,255,0.5)"
-              octx.rect(x-20,y-20,50,50)
-              octx.fill()
-              dctx.clearRect(x-20,y-20,50,50)
-            }
-            else{
-              dctx.beginPath()
-              dctx.moveTo(px,py)
-              dctx.strokeStyle = drawColor.value
-              dctx.lineWidth = 3
-              dctx.lineTo(x,y)
-              dctx.stroke()
+          if(landmarks[4].y<landmarks[20].y && landmarks[4].x.toFixed(2)===landmarks[20].x.toFixed(2)){
+            drawModeIndicator.style.backgroundColor = 'lightgreen'
+            drawMode = true
+          }
+          if(landmarks[4].y>landmarks[20].y && landmarks[4].x.toFixed(2)===landmarks[20].x.toFixed(2)){
+            drawModeIndicator.style.backgroundColor = 'red'
+            drawMode = false
+          }
+          if(drawMode){
+            if(landmarks[8].y<landmarks[16].y-0.1){
+              if(landmarks[8].y>landmarks[12].y){
+                octx.beginPath()
+                octx.fillStyle = "rgba(15,143,255,0.5)"
+                octx.rect(x-20,y-20,50,50)
+                octx.fill()
+                dctx.clearRect(x-20,y-20,50,50)
+              }
+              else{
+                dctx.beginPath()
+                dctx.moveTo(px,py)
+                dctx.strokeStyle = drawColor.value
+                dctx.lineWidth = 3
+                dctx.lineTo(x,y)
+                dctx.stroke()
+              }
             }
           }
           if(landmarks[20].y<landmarks[12].y-((-landmarks[12].z*0.833)+0.05)){
@@ -242,3 +254,15 @@ function mutevfn(){
     }
   }
 
+function toggleDrawMode(){
+  if(!drawMode){
+    drawModeIndicator.style.backgroundColor = 'lightgreen'
+    drawMode = true
+    return
+  }
+  if(drawMode){
+    drawModeIndicator.style.backgroundColor = 'red'
+    drawMode = false
+    return
+  }
+}
