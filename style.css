@@ -263,4 +263,10 @@ body{
         top: auto;
         bottom: 10px;
     }
+    #drawModeIndicator{
+        top: auto;
+        left: auto;
+        bottom: 10px;
+        right: 10px;
+    }
 }
