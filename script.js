@@ -99,7 +99,7 @@ const hands = new Hands({locateFile: (file) => {
             drawMode = false
           }
           if(drawMode){
-            if(landmarks[8].y<landmarks[16].y-0.1){
+            if(landmarks[8].y<landmarks[16].y-0.25){
               if(landmarks[8].y>landmarks[12].y){
                 octx.beginPath()
                 octx.fillStyle = "rgba(15,143,255,0.5)"
