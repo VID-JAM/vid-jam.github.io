@@ -90,16 +90,16 @@ const hands = new Hands({locateFile: (file) => {
           ctx.fill()
           drawConnectors(ctx, landmarks, HAND_CONNECTIONS,{color: '#ff7700', lineWidth: 5});
           drawLandmarks(ctx, landmarks, {color: '#ee00ff', lineWidth: 1});
-          if(landmarks[4].y<landmarks[20].y-((-landmarks[20].z*0.833)+0.05) && landmarks[4].x.toFixed(2)===landmarks[20].x.toFixed(2) && landmarks[4].x.toFixed(1)===landmarks[8].x.toFixed(1)){
+          if(landmarks[4].y<landmarks[8].y-0.05 && landmarks[4].x.toFixed(1)===landmarks[20].x.toFixed(1) && landmarks[4].x.toFixed(1)===landmarks[8].x.toFixed(1) && landmarks[5].x.toFixed(1)===landmarks[8].x.toFixed(1) && landmarks[2].x.toFixed(1)===landmarks[4].x.toFixed(1)){
             drawModeIndicator.style.backgroundColor = 'lime'
             drawMode = true
           }
-          if(landmarks[4].y>landmarks[20].y-((-landmarks[20].z*0.833)+0.05) && landmarks[4].x.toFixed(2)===landmarks[20].x.toFixed(2) && landmarks[4].x.toFixed(1)===landmarks[8].x.toFixed(1)){
+          if(landmarks[4].y>landmarks[8].y+0.05 && landmarks[4].x.toFixed(1)===landmarks[20].x.toFixed(1) && landmarks[4].x.toFixed(1)===landmarks[8].x.toFixed(1) && landmarks[5].x.toFixed(1)===landmarks[8].x.toFixed(1) && landmarks[5].y>landmarks[0].y){
             drawModeIndicator.style.backgroundColor = 'grey'
             drawMode = false
           }
           if(drawMode){
-            if(landmarks[8].y<landmarks[16].y-0.25){
+            if(landmarks[8].y<landmarks[16].y-0.1 && landmarks[3].y>landmarks[8].y){
               if(landmarks[8].y>landmarks[12].y){
                 octx.beginPath()
                 octx.fillStyle = "rgba(15,143,255,0.5)"
