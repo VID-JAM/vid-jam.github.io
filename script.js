@@ -1,17 +1,24 @@
+var noop = function () {};
+navigator.getUserMedia = (navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia);
 if(navigator.userAgent.indexOf("Chrome") != -1 ){
   console.log('Chrome');
-  var noop = function () {};
-  navigator.getUserMedia = (navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia);
-  navigator.getUserMedia({video: true, audio: true}, noop, noop);
-    navigator.permissions.query({name:"camera"}).then((sta)=>{
-      sta.onchange = ()=>{
-        if(sta.state === "granted"){
-          bam = true
-          console.log('granteddd')
-          bamFn()
+
+  navigator.permissions.query({name:"camera"}).then((sta)=>{
+    if(!(sta.state === "granted")){
+      if(confirm('Allow Camera & Mic?')){
+        navigator.getUserMedia({video: true, audio: true}, (streeem)=>{streeem.getTracks().forEach(track=>track.stop())}, noop);
+        sta.onchange = ()=>{
+          if(sta.state === "granted"){
+            console.log('granteddd')
+            bamFn()
+          }
         }
       }
-    })
+    }
+    else{
+      bamFn()
+    }
+  })
 }
 
 let uid = "vj"+Date.now().toString().slice(-6,-1)
