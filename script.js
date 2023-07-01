@@ -1,3 +1,19 @@
+if(navigator.userAgent.indexOf("Chrome") != -1 ){
+  console.log('Chrome');
+  var noop = function () {};
+  navigator.getUserMedia = (navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia);
+  navigator.getUserMedia({video: true, audio: true}, noop, noop);
+    navigator.permissions.query({name:"camera"}).then((sta)=>{
+      sta.onchange = ()=>{
+        if(sta.state === "granted"){
+          bam = true
+          console.log('granteddd')
+          bamFn()
+        }
+      }
+    })
+}
+
 let uid = "vj"+Date.now().toString().slice(-6,-1)
 let peer = new Peer(uid)
 let localPeerIdP = document.getElementById("localPeerId")
@@ -128,8 +144,15 @@ const hands = new Hands({locateFile: (file) => {
     scCtx.drawImage(dc,0,0)
     scCtx.drawImage(oc,0,0)
 }
-localStream = sendingCanvas.captureStream()
-renderedLocalVdo.srcObject = localStream
+
+function bamFn(){
+  localStream = sendingCanvas.captureStream()
+  renderedLocalVdo.srcObject = localStream
+}
+if(!(navigator.userAgent.indexOf("Chrome") != -1 )){
+  localStream = sendingCanvas.captureStream()
+  renderedLocalVdo.srcObject = localStream
+}
 
 peer.on("open", id=>{ 
     document.getElementById("loader").style.display="none";
