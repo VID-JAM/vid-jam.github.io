@@ -1,3 +1,11 @@
+if(navigator.userAgent.indexOf("Chrome") != -1 ){
+  console.log('Chrome');
+  navigator.mediaDevices.getUserMedia({audio: true, video: true})
+    .then((bam)=>{
+    console.log(bam)
+  })
+}
+
 let uid = "vj"+Date.now().toString().slice(-6,-1)
 let peer = new Peer(uid)
 let localPeerIdP = document.getElementById("localPeerId")
