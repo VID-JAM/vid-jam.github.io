@@ -96,6 +96,16 @@ const hands = new Hands({locateFile: (file) => {
       minTrackingConfidence: 0.6
   });
   hands.onResults(onResults);
+
+  // Start downloading wasm + model (~16 MB) now, in the background, instead of on the first frame after Join
+  let modelStatus = document.getElementById("modelStatus")
+  hands.initialize()
+    .then(()=>{ modelStatus.innerText = "" })
+    .catch(err=>{
+      console.error("Hand model failed to preload", err)
+      modelStatus.innerText = ""
+    })
+
   function onResults(results) {
     ctx.save();
     ctx.clearRect(0, 0, canvasElement.width, canvasElement.height);
