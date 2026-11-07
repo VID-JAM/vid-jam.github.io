@@ -1,5 +1,4 @@
 // ===== Browser permissions (Chrome-only workaround) =====
-var noop = function () {};
 navigator.getUserMedia = (navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia);
 const isChrome = navigator.userAgent.indexOf("Chrome") != -1
 
@@ -10,7 +9,10 @@ if(isChrome){
     if(!(permission.state === "granted")){
       if(confirm('Allow Camera & Mic?')){
         // open and immediately release a stream, just to trigger the browser prompt
-        navigator.getUserMedia({video: true, audio: true}, (stream)=>{stream.getTracks().forEach(track=>track.stop())}, noop);
+        navigator.getUserMedia({video: true, audio: true}, (stream)=>{stream.getTracks().forEach(track=>track.stop())}, (err)=>{
+          console.error('Camera/mic request failed:', err)
+          showError("Couldn't access the camera/microphone (" + (err.name || err) + "). Check browser and system permissions.", {retry: false})
+        });
         permission.onchange = ()=>{
           if(permission.state === "granted"){
             console.log('granteddd')
@@ -35,6 +37,10 @@ const remotePeerIdInput = document.getElementById("remotePeerId")
 const joinBtn = document.getElementById("join-btn")
 const backBtn = document.getElementById('back')
 const modelStatus = document.getElementById("modelStatus")
+const errorBanner = document.getElementById("errorBanner")
+const errorText = document.getElementById("errorText")
+const errorRetry = document.getElementById("errorRetry")
+const errorClose = document.getElementById("errorClose")
 
 // video tiles
 const localTile = document.getElementById("localVid")
@@ -215,14 +221,18 @@ if(!isChrome){
 
 
 // ===== Calling (PeerJS) =====
-const peerId = "vj"+Date.now().toString().slice(-6,-1)
-const peer = new Peer(peerId)
+// add ?local to the page URL to use a PeerJS server on this machine (npx peerjs --port 9000 --path /),
+// e.g. when the public one is blocked. Random suffix so two tabs opened together don't share an id.
+const useLocalServer = new URLSearchParams(location.search).has("local")
+const peerId = "vj"+Date.now().toString().slice(-6,-1) + (useLocalServer ? Math.random().toString(36).slice(2,5) : "")
+const peer = useLocalServer
+    ? new Peer(peerId, {host: "localhost", port: 9000, path: "/"})
+    : new Peer(peerId)
 
 function showCallScreen(){
     startModal.style.display = "none"
     cover.style.display = "none"
 }
-
 // add the mic track to the stream we send
 function addMicTrack(){
     localVideoEl.srcObject.getAudioTracks().forEach(track => localStream.addTrack(track))
@@ -233,7 +243,51 @@ function showRemoteStream(stream){
     remoteVideoEl.onloadedmetadata = ()=> remoteVideoEl.play()
 }
 
+let signalingWasOpen = false
+
+// Toast at the top. Stays until dismissed, or fades after autoHideMs for minor errors.
+// Retry is a manual reload; we never reload on our own, that re-triggers the permission prompt.
+let errorTimer
+function showError(message, {retry = true, autoHideMs = 0} = {}){
+    clearTimeout(errorTimer)
+    errorText.innerText = message
+    errorRetry.style.display = retry ? "inline-block" : "none"
+    errorBanner.classList.add("show")
+    if(autoHideMs) errorTimer = setTimeout(hideError, autoHideMs)
+}
+function hideError(){
+    clearTimeout(errorTimer)
+    errorBanner.classList.remove("show")
+}
+errorRetry.addEventListener('click', ()=> location.reload())
+errorClose.addEventListener('click', hideError)
+
+// the signaling server (0.peerjs.com) can be blocked by firewalls: tell the user instead of failing silently
+const signalingTimeout = setTimeout(()=>{
+    if(!signalingWasOpen){
+        document.getElementById("loader").style.display="none"
+        showError("Still can't reach the call server (0.peerjs.com). Your network or firewall may be blocking it.")
+    }
+}, 15000)
+
+peer.on("error", err=>{
+    console.error("PeerJS error:", err.type, err)
+    if(err.type === "peer-unavailable"){
+        showError("No meeting found with that ID.", {retry: false, autoHideMs: 5000})
+    }
+    else if(["network", "server-error", "socket-error", "socket-closed"].includes(err.type)){
+        document.getElementById("loader").style.display="none"
+        showError("Can't reach the call server (0.peerjs.com). Your network or firewall may be blocking it.")
+    }
+    else{
+        showError("Call error: " + err.type, {retry: false, autoHideMs: 6000})
+    }
+})
+
 peer.on("open", id=>{
+    signalingWasOpen = true
+    clearTimeout(signalingTimeout)
+    hideError()
     document.getElementById("loader").style.display="none";
     document.getElementById('newMeetBtn').style.display = "block"
     //document.getElementById("id_div").style.display="flex";
@@ -249,6 +303,10 @@ function newMeet(){
 
 // caller
 joinBtn.addEventListener('click',async ()=>{
+    if (!peer.open) {
+        showError("Not connected to the call server yet, so a call can't be started.", {autoHideMs: 8000})
+        return
+    }
     if (remotePeerIdInput.value!=="") {
         const remotePeerId = remotePeerIdInput.value
         await startLocalVideo();
@@ -276,8 +334,12 @@ peer.on("call", async(call)=>{
 function endCall(){
   location.reload()
 }
+// Also fires after a failed first connect (PeerJS destroys the peer), so only reconnect if we were connected.
+// Running calls are peer-to-peer and survive a signaling drop.
 peer.on('disconnected',()=>{
-    location.reload()
+    if(signalingWasOpen && !peer.destroyed){
+        peer.reconnect()
+    }
 })
 
 
