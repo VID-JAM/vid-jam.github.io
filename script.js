@@ -185,13 +185,15 @@ function onResults(results) {
                 drawCtx.clearRect(tipX-20,tipY-20,50,50)
               }
               else{
-                // otherwise: draw a line from last position
-                drawCtx.beginPath()
-                drawCtx.moveTo(prevTipX,prevTipY)
-                drawCtx.strokeStyle = colorInput.value
-                drawCtx.lineWidth = 3
-                drawCtx.lineTo(tipX,tipY)
-                drawCtx.stroke()
+                // otherwise: draw a line from last position (none right after the hand reappears)
+                if(prevTipX !== undefined){
+                  drawCtx.beginPath()
+                  drawCtx.moveTo(prevTipX,prevTipY)
+                  drawCtx.strokeStyle = colorInput.value
+                  drawCtx.lineWidth = 3
+                  drawCtx.lineTo(tipX,tipY)
+                  drawCtx.stroke()
+                }
               }
             }
             if(isClearGesture(landmarks)){
@@ -199,6 +201,10 @@ function onResults(results) {
             }
           }
         }
+    }
+    if (!results.multiHandLandmarks || results.multiHandLandmarks.length === 0) {
+        // hand lost: forget the fingertip so the next stroke doesn't start from where it was last seen
+        tipX = tipY = prevTipX = prevTipY = undefined
     }
     cameraCtx.restore();
 
