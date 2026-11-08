@@ -232,7 +232,7 @@ if(!isChrome){
 const useLocalServer = new URLSearchParams(location.search).has("local")
 const peerId = "vj"+Date.now().toString().slice(-6,-1) + (useLocalServer ? Math.random().toString(36).slice(2,5) : "")
 const peer = useLocalServer
-    ? new Peer(peerId, {host: "localhost", port: 9000, path: "/"})
+    ? new Peer(peerId, {host: "localhost", port: 9000, path: "/", secure: false })
     : new Peer(peerId)
 
 function showCallScreen(){
