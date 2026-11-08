@@ -29,6 +29,49 @@ body{
     background-image: url(./assets/cover_bg.png);
     background-size: 100vw 100vh;
 }
+/* compact toast, top-center so it stays clear of the color / brush buttons */
+#errorBanner{
+    position: fixed;
+    top: 12px;
+    left: 50%;
+    transform: translate(-50%, -8px);
+    z-index: 20;
+    max-width: min(90vw, 460px);
+    padding: 8px 8px 8px 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-radius: 10px;
+    background-color: rgba(179, 38, 30, 0.95);
+    color: white;
+    font-size: 14px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity .3s, transform .3s, visibility .3s;
+}
+#errorBanner.show{
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translate(-50%, 0);
+}
+#errorBanner button{
+    flex-shrink: 0;
+    padding: 3px 10px;
+    border: 1px solid white;
+    border-radius: 6px;
+    background: transparent;
+    color: white;
+    cursor: pointer;
+}
+#errorBanner #errorClose{
+    border: none;
+    padding: 0 6px;
+    font-size: 20px;
+    line-height: 1;
+}
 #start{
     position: fixed;
     z-index: 15;
